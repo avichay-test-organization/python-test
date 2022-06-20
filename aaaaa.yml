@@ -89,3 +89,32 @@ jobs:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           GITHUB_EVENT: '${{ toJSON(github) }}'
+
+
+deploy-prod:
+    environment: prod
+    needs: [ deploy-staging, e2e-staging ]
+    runs-on: ubuntu-18.04
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy Action checkout
+        uses: daspn/private-actions-checkout@v2
+        with:
+          actions_list: '["jitsecurity/serverless-deployment-github-action@main"]'
+          checkout_base_path: ./.github/actions
+          ssh_private_key: ${{ secrets.DEPLOY_KEY }}
+
+      # the custom private action will be available on the job's workspace
+      - name: 'running sls deploy'
+        uses: ./.github/actions/serverless-deployment-github-action
+        with:
+          EPSAGON_TOKEN: ${{ secrets.EPSAGON_TOKEN }}
+          SERVICE_NAME: report-service
+          STAGE: prod
+          PIP_SSH_KEY: ${{ secrets.DEPLOY_KEY }}
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+          GITHUB_EVENT: '${{ toJSON(github) }}'
