@@ -37,3 +37,7 @@ frontend = ServiceDeployment(
     is_minikube=isMinikube)
 
 pulumi.export("frontend_ip", frontend.ip_address)
+
+
+
+
