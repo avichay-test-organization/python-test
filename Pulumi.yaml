@@ -6,3 +6,4 @@ template:
     alicloud:region:
       description: The Alicloud region to deploy into
       default: us-east-1
+
