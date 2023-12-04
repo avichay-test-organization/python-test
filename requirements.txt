@@ -1,0 +1,15 @@
+boto3==1.17.64
+pydantic==1.8.2
+python-dotenv==0.17.1
+aws-requests-auth==0.4.3
+Jinja2==3.0.3
+pyyaml>=6.0,<7.0
+pymongo[aws]==4.6.0
+cachetools==5.3.2
+
+# If you want all utils from jit utils, do jit-utils[all], make sure it installs automatically dependant utils
+jit-utils[logger,requests,lambda_decorators,service_discovery] @ git+ssh://git@github.com/jitsecurity/jit-utils.git@10.5.4#egg=jit-utils
+aws_lambda_powertools>=2.15.0,<3
+git+ssh://git@github.com/jitsecurity/py_api.git@v0.1.7#egg=py-api
+# types
+boto3-stubs[events, dynamodb]
