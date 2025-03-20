@@ -1,0 +1,26 @@
+name: Build latest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker load -i vulnerable.tar
+          
+          sudo apt-get update && sudo apt-get install -y curl git
+          curl -L https://jit-cli.s3.us-east-1.amazonaws.com/jit-cli/latest/jit-cli-amd64-slim -o jit-cli
+          chmod +x jit-cli
+
+          ./jit-cli container --image $IMAGE --tracking-name $TRACKING_NAME --add-to-backlog
+        env:
+          JIT_CLIENT_ID: ${{ secrets.JIT_CLIENT_ID }}
+          JIT_SECRET_KEY: ${{ secrets.JIT_SECRET_KEY }}
+          IMAGE: local-gitleaks
+          TRACKING_NAME: registry/jonathan
