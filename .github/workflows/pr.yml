@@ -28,4 +28,4 @@ jobs:
           JIT_CLIENT_ID: ${{ secrets.JIT_CLIENT_ID }}
           JIT_SECRET_KEY: ${{ secrets.JIT_SECRET_KEY }}
           IMAGE: hello-world-image
-          TRACKING_NAME: registry/jonathan
+          TRACKING_NAME: registry/jonathan1
